@@ -1,2 +1,4 @@
 ogdf/
 *.gml
+*.svg
+*.txt
