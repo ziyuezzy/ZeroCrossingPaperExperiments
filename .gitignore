@@ -1,4 +1,10 @@
 ogdf/
 *.gml
 *.svg
-*.txt
+build/
+/**/CMakeFiles
+/**/*.cmake
+/**/*.exe
+Makefile
+/**/*.out
+.vscode/

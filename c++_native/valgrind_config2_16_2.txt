@@ -1,0 +1,5 @@
+==197860== Memcheck, a memory error detector
+==197860== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==197860== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==197860== Command: ./config_2.exe 16 2
+==197860== 

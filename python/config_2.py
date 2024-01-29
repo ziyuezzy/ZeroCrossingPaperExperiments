@@ -11,7 +11,7 @@ factor = int(sys.argv[2]) # the bandwidth per GPU is factor*960GBps
 T=factor*16
 
 from ogdf_python import *
-# Tile_length = 100.0
+Tile_length = 100.0
 cppinclude("ogdf/fileformats/GraphIO.h")
 cppinclude("ogdf/orthogonal/OrthoLayout.h")
 cppinclude("ogdf/planarity/PlanarSubgraphFast.h")
@@ -38,8 +38,12 @@ GA = ogdf.GraphAttributes(G, ogdf.GraphAttributes.all)
 GA.directed=False
 for n in N_nodes:
     GA.label[n] = "C%s" % n.index()
+    GA.width[n] = Tile_length
+    GA.height[n] = Tile_length
 for n in T_nodes:
     GA.label[n] = "S%s" % n.index()
+    GA.width[n] = Tile_length
+    GA.height[n] = Tile_length
 for e in G.edges:
     GA.arrowType[e] =0
 
