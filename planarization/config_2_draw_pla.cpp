@@ -20,7 +20,8 @@ int main(int argc, char *argv[]) {
     // Extract command-line arguments
     int N = std::stoi(argv[1]);
     int factor = std::stoi(argv[2]); // the bandwidth per GPU is factor*(N-1)*4GBps*16(wavelengths)GBps
-    int T=factor*16;
+    int baseline_T=8; // 512GBps per GPU
+    int T=factor*baseline_T;
 
     // Create the graph
     Graph G;
@@ -39,12 +40,10 @@ int main(int argc, char *argv[]) {
     int num_edges = 0;
     for (int t = 0; t < T; ++t) {
         for (int n = 0; n < N; ++n) {
-            for (int f = 0; f < factor; ++f) {
-                G.newEdge(T_nodes[t], N_nodes[n]);
-                ++num_edges;
-                G.newEdge(T_nodes[t], N_nodes[n]);
-                ++num_edges;
-            }
+            G.newEdge(T_nodes[t], N_nodes[n]);
+            ++num_edges;
+            G.newEdge(T_nodes[t], N_nodes[n]);
+            ++num_edges;
         }
     }
 
@@ -68,7 +67,7 @@ int main(int argc, char *argv[]) {
     PlanarSubgraphFast<int> *ps = new PlanarSubgraphFast<int>;
     ps->runs(100);
 	VariableEmbeddingInserter *ves = new VariableEmbeddingInserter;
-	ves->removeReinsert(RemoveReinsertType::All);
+	ves->removeReinsert(RemoveReinsertType::Inserted);
 
     // Set up PlanarizationLayout components
     crossMin->setSubgraph(ps);
@@ -86,10 +85,10 @@ int main(int argc, char *argv[]) {
                                    "_TBps_config_2.svg");
 
     int num_crossings = pl.numberOfCrossings();
-    int ave_crossing_per_wg = round((num_crossings)/num_edges);
+    int ave_crossing_per_wg = round((num_crossings*2)/num_edges);
 
     // [N, Theta, ave_crossing_per_wg] in the csv file
-    std::vector<int> data = {N, factor * 1024, ave_crossing_per_wg};
+    std::vector<int> data = {N, factor * 512, ave_crossing_per_wg};
 
     // Specify the file name
     const std::string csv_file_name = "config_2_planarization.csv";

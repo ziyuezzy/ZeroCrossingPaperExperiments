@@ -59,7 +59,8 @@ int main(int argc, char *argv[]) {
     PlanarSubgraphFast<int> *ps = new PlanarSubgraphFast<int>;
     ps->runs(100);
 	VariableEmbeddingInserter *ves = new VariableEmbeddingInserter;
-	ves->removeReinsert(RemoveReinsertType::All);
+	ves->removeReinsert(RemoveReinsertType::Inserted); 
+	// ves->removeReinsert(RemoveReinsertType::All); # possible stack overflow here.
 
     // Set up PlanarizationLayout components
     crossMin->setSubgraph(ps);
@@ -77,9 +78,10 @@ int main(int argc, char *argv[]) {
                                    "_TBps_config_1_uniform.svg");
 
     int num_crossings = pl.numberOfCrossings();
-    int ave_crossing_per_wg = round((num_crossings)/num_edges);
+    std::cout << num_crossings << " crossings" << std::endl;
+    int ave_crossing_per_wg = round((num_crossings*2)/num_edges);
 
-    // [N, Theta, ave_crossing_per_wg] in the csv file
+    // [N, Theta, ave_crossing_per_wg] in the csv file # BW=(N-1)*4GBps*16 wavelengths/wdm
     std::vector<int> data = {N, factor * (N-1)*4*16, ave_crossing_per_wg};
 
     // Specify the file name

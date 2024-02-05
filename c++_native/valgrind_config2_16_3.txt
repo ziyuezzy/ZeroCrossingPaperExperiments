@@ -1,5 +1,0 @@
-==196554== Memcheck, a memory error detector
-==196554== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==196554== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
-==196554== Command: ./config_2.exe 16 3
-==196554== 
